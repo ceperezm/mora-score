@@ -1,0 +1,15 @@
+# Compilados y empaquetados
+target/
+*.class
+*.jar
+*.war
+
+# Maven wrapper jar (solo el binario, no el script)
+.mvn/wrapper/maven-wrapper.jar
+
+# Logs de Spring Boot
+*.log
+logs/
+
+# Archivos temporales de compilacion
+*.tmp

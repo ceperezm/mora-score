@@ -1,0 +1,60 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: morascore-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: morascore
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - morascore_data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+    networks:
+      - morascore-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d morascore"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: morascore-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/morascore
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - ML_SERVICE_URL=http://ml-service:8000/predict
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    networks:
+      - morascore-network
+
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    container_name: morascore-ml-service
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    networks:
+      - morascore-network
+
+volumes:
+  morascore_data:
+
+networks:
+  morascore-network:
+    driver: bridge

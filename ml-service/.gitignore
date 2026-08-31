@@ -1,0 +1,17 @@
+# Entorno virtual de Python
+venv/
+.venv/
+env/
+
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+
+# Archivos de instalacion de pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Logs
+*.log
