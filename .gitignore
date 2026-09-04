@@ -1,4 +1,4 @@
-# Frontend (ignorado por ahora)
+﻿# Frontend (ignorado por ahora)
 frontend/
 
 # Variables de entorno (nunca subir secretos)
@@ -13,3 +13,9 @@ frontend/
 # OS
 .DS_Store
 Thumbs.db
+
+
+# MLflow local artifacts y DB
+mlartifacts/
+mlruns/
+mlflow.db

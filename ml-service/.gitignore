@@ -15,3 +15,8 @@ pip-delete-this-directory.txt
 
 # Logs
 *.log
+
+# MLflow local artifacts y DB
+mlartifacts/
+mlruns/
+mlflow.db
